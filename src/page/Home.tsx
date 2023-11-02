@@ -12,7 +12,7 @@ const Home = () => {
                     <h2 className="my-3 text-lg md:text-xl lg:text-[1.6rem] font-medium text-[#0D0C2D]">
                         Slider (LinkedIn Document Post)
                     </h2>
-                    <p className="text-center text-gray-600 leading-6 text-sm md:text-base">
+                    <p className="text-center text-gray-600 leading-6 text-sm md:text-base md:text-[14px] lg:text-base sm:text-xxs sm:leading-4">
                         Slider is an extension of a LinkedIn document post. However, in this case, you can add gifs, small
                         videos, and illustrations within the document after uploading your PDF. (Note: The next version
                         will support even more features.)
