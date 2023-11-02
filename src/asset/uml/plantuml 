@@ -1,0 +1,135 @@
+// SEQUENCE DIAGRAM
+@startuml
+
+actor User as CLIENT
+participant SliderSystem as SERVER
+participant MediaManager
+participant DocumentEditor
+
+CLIENT -> SERVER: Upload PDF, Media
+activate SERVER
+SERVER -> MediaManager: Upload Media
+activate MediaManager
+MediaManager -> SERVER: Confirm Media Upload
+SERVER -> DocumentEditor: Create Presentation
+activate DocumentEditor
+User -> SERVER: Add Illustrations, GIFs, Videos
+DocumentEditor -> SERVER: Add Media to Presentation
+SERVER -> CLIENT: Preview Presentation
+CLIENT -> SERVER: Publish Presentation
+SERVER -> CLIENT: Presentation Published
+deactivate DocumentEditor
+deactivate MediaManager
+deactivate SERVER
+
+@enduml
+
+==========================
+CLASS DIAGRAM
+
+@startuml
+
+!define MEDIA_MANAGER_CLASS "MediaManager"
+!define DOCUMENT_EDITOR_CLASS "DocumentEditor"
+!define PRESENTATION_CLASS "Presentation"
+!define MEDIA_CLASS "Media"
+!define ILLUSTRATION_CLASS "Illustration"
+!define GIF_CLASS "GIF"
+!define VIDEO_CLASS "Video"
+!define IMAGE_CLASS "Image"
+
+class CLIENT as "User"
+
+class SERVER as "SliderSystem" {
+    +CreatePresentation()
+}
+
+class MEDIA_MANAGER_CLASS {
+    +UploadMedia()
+    +ConfirmMediaUpload()
+    +RequestMedia()
+    +StoreMediaInDocument()
+}
+
+class DOCUMENT_EDITOR_CLASS {
+    +CreatePresentation()
+    +AddMediaToPresentation()
+}
+
+class PRESENTATION_CLASS {
+    -PresentationID: int
+    -Title: string
+    -Content: string
+    -PrivacySettings: string
+    +EditContent()
+    +Publish()
+    +SetPrivacySettings()
+}
+
+class MEDIA_CLASS {
+    -MediaID: int
+    -MediaType: string
+    -Path: string
+    +EditMedia()
+    +DeleteMedia()
+}
+
+class ILLUSTRATION_CLASS {
+    +ProvideIllustrations()
+}
+
+class GIF_CLASS {
+    +ProvideGIFs()
+}
+
+class VIDEO_CLASS {
+    +ProvideVideos()
+}
+
+class IMAGE_CLASS {
+    +DisplayImage()
+}
+
+CLIENT --> SERVER: "Upload PDF, Media"
+SERVER --> MEDIA_MANAGER_CLASS: "Upload Media"
+MEDIA_MANAGER_CLASS --> SERVER: "Confirm Media Upload"
+SERVER --> DOCUMENT_EDITOR_CLASS: "Create Presentation"
+CLIENT --> SERVER: "Add Media"
+DOCUMENT_EDITOR_CLASS --> SERVER: "Add Media to Presentation"
+SERVER --> CLIENT: "Preview Presentation"
+CLIENT --> SERVER: "Publish Presentation"
+SERVER --> CLIENT: "Presentation Published"
+
+MEDIA_MANAGER_CLASS --> MEDIA_CLASS: "Request Media"
+DOCUMENT_EDITOR_CLASS --> MEDIA_MANAGER_CLASS: "Store Media In Document"
+DOCUMENT_EDITOR_CLASS --> MEDIA_CLASS: "Edit Media"
+PRESENTATION_CLASS --> MEDIA_CLASS: "Edit Media"
+PRESENTATION_CLASS --> MEDIA_CLASS: "Delete Media"
+
+MEDIA_CLASS <|-- ILLUSTRATION_CLASS
+MEDIA_CLASS <|-- GIF_CLASS
+MEDIA_CLASS <|-- VIDEO_CLASS
+MEDIA_CLASS <|-- IMAGE_CLASS
+
+@enduml
+
+==================
+USE CASE DIAGRAM
+
+@startuml
+left to right direction
+
+actor User as CLIENT
+
+rectangle "Slider System" {
+  usecase "Upload PDF, Media" as UC1
+  usecase "Add Media" as UC2
+  usecase "Preview Presentation" as UC3
+  usecase "Publish Presentation" as UC4
+}
+
+CLIENT --> UC1
+CLIENT --> UC2
+CLIENT --> UC3
+CLIENT --> UC4
+@enduml
