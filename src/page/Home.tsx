@@ -1,44 +1,79 @@
-import React from 'react';
-import Nav from "../component/Nav";
-import {AiOutlineCloudUpload} from 'react-icons/ai'
+import React, {useState} from 'react';
+import Nav from '../component/Nav';
+import FileDropZone from '../component/FileDropZone';
+import Header from '../component/Header';
+import FileItem from '../component/FileItem';
+import {FileItemType, FileStatus} from '../util/types';
+import {useFileContent} from '../context/FileContentContext';
 
 
-const Home = () => {
+const Home: React.FC = () => {
+    const [fileItems, setFileItems] = useState<FileItemType[]>([]);
+    const {fileBlobs, setFileBlobs} = useFileContent();
+
+    const handleFileSelected = (files: File[]) => {
+        const newFileItems = files.map((file) => ({file, status: 'in-que' as FileStatus}));
+
+        // Update file blobs in context
+        const updatedFileBlobs = {...fileBlobs};
+
+        // Create and store the blob for each file
+        newFileItems.forEach((item) => {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const result = event.target?.result;
+                if (result) {
+                    // Store the created Blob in the updatedFileBlobs
+                    updatedFileBlobs[item.file.name] = new Blob([result], {type: item.file.type});
+                    setFileBlobs(updatedFileBlobs);
+                }
+            };
+            reader.readAsArrayBuffer(item.file);
+        });
+
+        setFileItems((prevFileItems) => [...prevFileItems, ...newFileItems]);
+
+        setTimeout(() => {
+            setFileItems((prevFileItems) =>
+                prevFileItems.map((item) =>
+                    files.includes(item.file) ? {...item, status: 'done' as FileStatus} : item
+                )
+            );
+        }, 2000);
+    };
+
+
+    const isUploadSectionVisible = fileItems.length === 0;
+
     return (
         <>
             <Nav/>
             <div className="p-4">
-                <header className="flex flex-col items-center w-full md:w-1/2 mx-auto mt-10 md:mt-15">
-                    <h2 className="my-3 text-lg md:text-xl lg:text-[1.6rem] font-medium text-[#0D0C2D]">
-                        Slider (LinkedIn Document Post)
-                    </h2>
-                    <p className="text-center text-gray-600 leading-6 text-sm md:text-base md:text-[14px] lg:text-base sm:text-xxs sm:leading-4">
-                        Slider is an extension of a LinkedIn document post. However, in this case, you can add gifs, small
-                        videos, and illustrations within the document after uploading your PDF. (Note: The next version
-                        will support even more features.)
-                    </p>
-                </header>
+                <Header
+                    title="Slider (LinkedIn Document Post)"
+                    description="Slider is an extension of a LinkedIn document post. However, in this case, you can add gifs, small videos, and illustrations within the document after uploading your PDF. (Note: The next version will support even more features.)"
+                />
+                {isUploadSectionVisible && (
+                    <div className="flex items-center justify-center w-full md:w-4/6 mx-auto mt-10 md:mt-20">
+                        <FileDropZone onFileSelected={handleFileSelected}/>
+                    </div>
+                )}
 
-                <div className="flex items-center justify-center w-full md:w-2/3 mx-auto mt-10 md:mt-20">
-                    <label
-                        htmlFor="dropzone-file"
-                        className="flex flex-col items-center justify-center w-full h-72 md:h-80 rounded-2xl spaced-dotted-border cursor-pointer hover:bg-[#FEFBFE]">
-
-                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                            <AiOutlineCloudUpload size={45} color="#3139B7FF"/>
-                            <p className="mb-2 mt-2 text-sm text-[#3139B7FF]">
-                                Click or drop your file here
-                            </p>
-                        </div>
-                        <input id="dropzone-file" type="file" className="hidden"/>
-                    </label>
+                <div className="mt-8 w-full md:w-1/2 mx-auto">
+                    {fileItems.map((fileItem, index) => (
+                        <FileItem
+                            key={index}
+                            file={fileItem.file}
+                            status={fileItem.status}
+                            fileBlob={fileBlobs[fileItem.file.name]}
+                            setFileBlobs={setFileBlobs}
+                        />
+                    ))}
                 </div>
+
             </div>
         </>
     );
 };
 
 export default Home;
-
-
-
