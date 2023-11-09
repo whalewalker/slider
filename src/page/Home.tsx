@@ -59,7 +59,7 @@ const Home: React.FC = () => {
                     </div>
                 )}
 
-                <div className="mt-8 w-full md:w-1/2 mx-auto">
+                <div className="mt-8 w-full mx-auto flex flex-wrap justify-evenly">
                     {fileItems.map((fileItem, index) => (
                         <FileItem
                             key={index}
