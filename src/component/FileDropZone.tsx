@@ -2,11 +2,14 @@ import React, {useCallback} from 'react';
 import {useDropzone} from 'react-dropzone';
 import {AiOutlineCloudUpload} from 'react-icons/ai';
 
+
 type FileDropZoneProps = {
     onFileSelected: (files: File[]) => void;
+    accept: { [key: string]: any };
+    multiple: boolean;
 };
 
-const FileDropZone: React.FC<FileDropZoneProps> = ({onFileSelected}) => {
+const FileDropZone: React.FC<FileDropZoneProps> = ({onFileSelected, accept, multiple}) => {
     const onDrop = useCallback(
         (acceptedFiles: File[]) => {
             const allowedFileTypes = ['image/*', 'application/pdf', 'video/*', 'image/svg+xml'];
@@ -20,13 +23,8 @@ const FileDropZone: React.FC<FileDropZoneProps> = ({onFileSelected}) => {
 
     const {getRootProps, getInputProps} = useDropzone({
         onDrop,
-        accept: {
-            'image/*': [],
-            'application/pdf': [],
-            'video/*': [],
-            'image/svg+xml': []
-        },
-        multiple: true,
+        accept,
+        multiple
     });
 
     return (
