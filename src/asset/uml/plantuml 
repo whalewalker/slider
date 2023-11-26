@@ -6,18 +6,18 @@ participant SliderSystem as SERVER
 participant MediaManager
 participant DocumentEditor
 
-CLIENT -> SERVER: Upload PDF, Media
+CLIENT -> SERVER: Upload PDF, IMedia
 activate SERVER
-SERVER -> MediaManager: Upload Media
+SERVER -> MediaManager: Upload IMedia
 activate MediaManager
-MediaManager -> SERVER: Confirm Media Upload
-SERVER -> DocumentEditor: Create Presentation
+MediaManager -> SERVER: Confirm IMedia Upload
+SERVER -> DocumentEditor: Create IPresentation
 activate DocumentEditor
 User -> SERVER: Add Illustrations, GIFs, Videos
-DocumentEditor -> SERVER: Add Media to Presentation
-SERVER -> CLIENT: Preview Presentation
-CLIENT -> SERVER: Publish Presentation
-SERVER -> CLIENT: Presentation Published
+DocumentEditor -> SERVER: Add IMedia to IPresentation
+SERVER -> CLIENT: Preview IPresentation
+CLIENT -> SERVER: Publish IPresentation
+SERVER -> CLIENT: IPresentation Published
 deactivate DocumentEditor
 deactivate MediaManager
 deactivate SERVER
@@ -31,8 +31,8 @@ CLASS DIAGRAM
 
 !define MEDIA_MANAGER_CLASS "MediaManager"
 !define DOCUMENT_EDITOR_CLASS "DocumentEditor"
-!define PRESENTATION_CLASS "Presentation"
-!define MEDIA_CLASS "Media"
+!define PRESENTATION_CLASS "IPresentation"
+!define MEDIA_CLASS "IMedia"
 !define ILLUSTRATION_CLASS "Illustration"
 !define GIF_CLASS "GIF"
 !define VIDEO_CLASS "Video"
@@ -90,21 +90,21 @@ class IMAGE_CLASS {
     +DisplayImage()
 }
 
-CLIENT --> SERVER: "Upload PDF, Media"
-SERVER --> MEDIA_MANAGER_CLASS: "Upload Media"
-MEDIA_MANAGER_CLASS --> SERVER: "Confirm Media Upload"
-SERVER --> DOCUMENT_EDITOR_CLASS: "Create Presentation"
-CLIENT --> SERVER: "Add Media"
-DOCUMENT_EDITOR_CLASS --> SERVER: "Add Media to Presentation"
-SERVER --> CLIENT: "Preview Presentation"
-CLIENT --> SERVER: "Publish Presentation"
-SERVER --> CLIENT: "Presentation Published"
+CLIENT --> SERVER: "Upload PDF, IMedia"
+SERVER --> MEDIA_MANAGER_CLASS: "Upload IMedia"
+MEDIA_MANAGER_CLASS --> SERVER: "Confirm IMedia Upload"
+SERVER --> DOCUMENT_EDITOR_CLASS: "Create IPresentation"
+CLIENT --> SERVER: "Add IMedia"
+DOCUMENT_EDITOR_CLASS --> SERVER: "Add IMedia to IPresentation"
+SERVER --> CLIENT: "Preview IPresentation"
+CLIENT --> SERVER: "Publish IPresentation"
+SERVER --> CLIENT: "IPresentation Published"
 
-MEDIA_MANAGER_CLASS --> MEDIA_CLASS: "Request Media"
-DOCUMENT_EDITOR_CLASS --> MEDIA_MANAGER_CLASS: "Store Media In Document"
-DOCUMENT_EDITOR_CLASS --> MEDIA_CLASS: "Edit Media"
-PRESENTATION_CLASS --> MEDIA_CLASS: "Edit Media"
-PRESENTATION_CLASS --> MEDIA_CLASS: "Delete Media"
+MEDIA_MANAGER_CLASS --> MEDIA_CLASS: "Request IMedia"
+DOCUMENT_EDITOR_CLASS --> MEDIA_MANAGER_CLASS: "Store IMedia In Document"
+DOCUMENT_EDITOR_CLASS --> MEDIA_CLASS: "Edit IMedia"
+PRESENTATION_CLASS --> MEDIA_CLASS: "Edit IMedia"
+PRESENTATION_CLASS --> MEDIA_CLASS: "Delete IMedia"
 
 MEDIA_CLASS <|-- ILLUSTRATION_CLASS
 MEDIA_CLASS <|-- GIF_CLASS
@@ -122,10 +122,10 @@ left to right direction
 actor User as CLIENT
 
 rectangle "Slider System" {
-  usecase "Upload PDF, Media" as UC1
-  usecase "Add Media" as UC2
-  usecase "Preview Presentation" as UC3
-  usecase "Publish Presentation" as UC4
+  usecase "Upload PDF, IMedia" as UC1
+  usecase "Add IMedia" as UC2
+  usecase "Preview IPresentation" as UC3
+  usecase "Publish IPresentation" as UC4
 }
 
 CLIENT --> UC1

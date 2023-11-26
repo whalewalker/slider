@@ -24,3 +24,23 @@ export interface Response<T> {
     modelList: T[];
     count: number;
 }
+
+export interface IMedia {
+    id: string;
+    path: string;
+    name: string;
+    storageId: string;
+    checkSum: string;
+    contentType: string;
+    size: number;
+    position: number;
+    index: number
+}
+
+export interface IPresentation {
+    id?: string;
+    title?: string;
+    folderId?: string;
+    uuid?: string;
+    mediaList?: IMedia[];
+}
