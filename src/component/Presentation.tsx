@@ -1,27 +1,20 @@
 import React, {useState} from 'react';
 import Media from './Media';
 import {IPresentation} from "../util/types";
-import {Carousel, slider, Slider} from "@material-tailwind/react";
+import {Carousel} from "@material-tailwind/react";
 import {motion} from 'framer-motion'
-import media from "./Media";
 
 const Presentation: React.FC<IPresentation> = ({mediaList, ...otherProps}) => {
-
     const [displayPageTitle, setDisplayPageTitle] = useState<boolean>(false)
-    const [navigationIndex, setNavigationIndex] = useState<number>(0)
+    const [navigationIndex, setNavigationIndex] = useState<number>(0);
 
+    const mediaLength: number = mediaList ? mediaList?.length - 1 : 0
 
-
-    const mediaLength: number = mediaList?  mediaList?.length - 1: 0
-
-    const sliderWidth: number = Math.round(navigationIndex === 0 ? 0: (navigationIndex + 1) / mediaLength * 100)
-
-
-    const handleSliderChange = (e: any) => {
-        console.log(e.target.value)
-        setNavigationIndex(e.target.value)
-    }
-
+    const handleNavigation = (activeIndex: number) => {
+        if (navigationIndex !== activeIndex) {
+            setNavigationIndex(activeIndex);
+        }
+    };
     return (
         <div className="w-[50rem] mx-auto relative overflow-hidden my-10 pb-[2rem] ">
             <motion.div
@@ -37,19 +30,36 @@ const Presentation: React.FC<IPresentation> = ({mediaList, ...otherProps}) => {
                     <span className="font-normal ml-[.2rem] text-sm">{mediaLength} pages</span>
                 </p>
             </motion.div>
-            <Carousel className=" w-full  " navigation={({setActiveIndex, activeIndex, length}) => {
-                setNavigationIndex(activeIndex)
-            }} onMouseEnter={() => {
-                setDisplayPageTitle(true)
-            }} onMouseLeave={() => {
-                setDisplayPageTitle(false)
-            }}>
-                {mediaList?.slice(1).map(media => <Media key={media.id}{...media}/>)}
+            <Carousel className="w-full"
+                      navigation={({activeIndex, length, setActiveIndex}) => {
+                          handleNavigation(activeIndex);
+                          Array.from({ length }, (_, index) => index);
+                          return (
+                              <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 w-[80%]">
+                                  <input
+                                      type="range"
+                                      className="cursor-pointer w-full"
+                                      min="0"
+                                      max={length - 1}
+                                      step="1"
+                                      value={activeIndex}
+                                      onChange={(event) => {
+                                          const movedToValue = parseInt(event.target.value, 10);
+                                          setActiveIndex(movedToValue);
+                                      }}
+                                  />
+                              </div>
+                          );
+                      }}
+                      onMouseEnter={() => setDisplayPageTitle(true)}
+                      onMouseLeave={() => setDisplayPageTitle(false)}
+            >
+                {mediaList?.slice(1).map((media) => (
+                    <Media key={media.id} {...media} />
+                ))}
             </Carousel>
-            <div className="w-full mt-[2rem]">
-                <input type="range" className={"w-full"} max = {"100"} min={"1"} value={sliderWidth} onChange = {handleSliderChange}/>
-            </div>
         </div>
+
     );
 };
 
