@@ -100,7 +100,6 @@ const Home: React.FC = () => {
                         /></div>
                 )}
 
-                {(<div className="relative">
                     <Presentation
                         id={presentation?.id}
                         title={presentation?.title}
@@ -108,8 +107,6 @@ const Home: React.FC = () => {
                         mediaList={presentation?.mediaList}
                         uuid={presentation?.uuid}
                     />
-                </div>)}
-
             </div>
         </>
     );

@@ -1,10 +1,6 @@
-export type FileStatus = 'in-que' | 'done';
+import React from "react";
+import {useFullScreenHandle} from "react-full-screen";
 
-export type FileItemType = {
-    file: File;
-    status: FileStatus;
-    id: number
-};
 
 export interface IPresentationRequest {
     title: string,
@@ -43,4 +39,31 @@ export interface IPresentation {
     folderId?: string;
     uuid?: string;
     mediaList?: IMedia[];
+}
+
+export interface ISliderContainer{
+    displayPageTitle: boolean;
+    navigationIndex: number;
+    setNavigationIndex: React.Dispatch<React.SetStateAction<number>>;
+    setDisplayPageTitle: React.Dispatch<React.SetStateAction<boolean>>;
+    handle: ReturnType<typeof useFullScreenHandle>;
+    mediaItem?: IMedia[]
+}
+
+export interface IPresentationHeader {
+    title?: string;
+    mediaLength: number;
+    displayPageTitle: boolean;
+    navigationIndex: number;
+    handle: ReturnType<typeof useFullScreenHandle>;
+    setDisplayPageTitle: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsAccessibility: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface ISliderNavigation {
+    displayPageTitle: boolean;
+    activeIndex: number;
+    length: number;
+    setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+    handle: ReturnType<typeof useFullScreenHandle>;
 }
