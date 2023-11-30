@@ -6,11 +6,46 @@ import {useMutation} from "react-query";
 import {createPresentation} from "../service/presentationService";
 import Presentation from "../component/Presentation";
 import FileDropZone from "../component/FileDropZone";
+import {usePresentation} from "../context/PresentationContext";
+import Slider from "react-slick";
 
 
 const Home: React.FC = () => {
     const [progress, setProgress] = useState<number>(0);
-    const [presentation, setPresentation] = useState<IPresentation>()
+    const {presentation, setPresentation} = usePresentation();
+
+    function SampleNextArrow(props: any) {
+        const { className, style, onClick } = props;
+        return (
+            <div
+                className={className}
+                style={{ ...style, display: "block", background: "red" }}
+                onClick={onClick}
+            />
+        );
+    }
+
+    function SamplePrevArrow(props: any) {
+        const { className, style, onClick } = props;
+        return (
+            <div
+                className={className}
+                style={{ ...style, display: "block", background: "green" }}
+                onClick={onClick}
+            />
+        );
+    }
+
+    const settings = {
+        className: "center",
+        centerMode: true,
+        infinite: true,
+        centerPadding: "60px",
+        slidesToShow: 3,
+        speed: 500,
+        nextArrow: <SampleNextArrow />,
+        prevArrow: <SamplePrevArrow />
+    };
 
     const mutation = useMutation(
         async (values: any) => {
@@ -18,7 +53,6 @@ const Home: React.FC = () => {
         },
         {
             onSuccess: (response) => {
-                console.log("Response ==> ", response.data.modelList[0]);
                 localStorage.setItem("presentation", JSON.stringify(response.data.modelList[0]));
                 setPresentation(response.data.modelList[0]);
             },
@@ -99,17 +133,34 @@ const Home: React.FC = () => {
                             progress={progress}
                         /></div>
                 )}
+                    {/*<Presentation/>*/}
+            </div>
 
-                    <Presentation
-                        id={presentation?.id}
-                        title={presentation?.title}
-                        folderId={presentation?.folderId}
-                        mediaList={presentation?.mediaList}
-                        uuid={presentation?.uuid}
-                    />
+            <div className="border ">
+                <h2>Center Mode</h2>
+                <Slider {...settings}>
+                    <div>
+                        <h3>1</h3>
+                    </div>
+                    <div>
+                        <h3>2</h3>
+                    </div>
+                    <div>
+                        <h3>3</h3>
+                    </div>
+                    <div>
+                        <h3>4</h3>
+                    </div>
+                    <div>
+                        <h3>5</h3>
+                    </div>
+                    <div>
+                        <h3>6</h3>
+                    </div>
+                </Slider>
             </div>
         </>
-    );
+    )
 };
 
 export default Home;

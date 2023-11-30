@@ -4,6 +4,7 @@ import {IMedia} from "../util/types";
 
 
 const Media: React.FC<IMedia> = ({path, id, ...otherProps}) => {
+
     return (
         <div className="">
             <img

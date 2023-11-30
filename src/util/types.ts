@@ -41,29 +41,25 @@ export interface IPresentation {
     mediaList?: IMedia[];
 }
 
-export interface ISliderContainer{
+export interface ISliderNavigation {
+    activeIndex: number;
+    totalSlides: number;
+    setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export interface IPresentationContext {
+    presentation: IPresentation | null;
+    setPresentation: React.Dispatch<React.SetStateAction<IPresentation | null>>;
+    media: IMedia | null;
+    setMedia: React.Dispatch<React.SetStateAction<IMedia | null>>;
+    progress: number;
+    setProgress: React.Dispatch<React.SetStateAction<number>>;
     displayPageTitle: boolean;
+    setDisplayPageTitle: React.Dispatch<React.SetStateAction<boolean>>;
     navigationIndex: number;
     setNavigationIndex: React.Dispatch<React.SetStateAction<number>>;
-    setDisplayPageTitle: React.Dispatch<React.SetStateAction<boolean>>;
-    handle: ReturnType<typeof useFullScreenHandle>;
-    mediaItem?: IMedia[]
-}
+    accessibility: boolean;
+    setAccessibility: React.Dispatch<React.SetStateAction<boolean>>;
+    handleFullScreen: ReturnType<typeof useFullScreenHandle>;
 
-export interface IPresentationHeader {
-    title?: string;
-    mediaLength: number;
-    displayPageTitle: boolean;
-    navigationIndex: number;
-    handle: ReturnType<typeof useFullScreenHandle>;
-    setDisplayPageTitle: React.Dispatch<React.SetStateAction<boolean>>;
-    setIsAccessibility: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export interface ISliderNavigation {
-    displayPageTitle: boolean;
-    activeIndex: number;
-    length: number;
-    setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
-    handle: ReturnType<typeof useFullScreenHandle>;
 }

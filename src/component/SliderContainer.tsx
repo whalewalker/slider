@@ -1,19 +1,15 @@
 import React from 'react';
 import {Carousel} from "@material-tailwind/react";
-import {ISliderContainer} from "../util/types";
 import Media from "./Media";
 import SliderNavigation from './SliderNavigation';
+import {usePresentation} from "../context/PresentationContext";
 
 
 
-const SliderContainer: React.FC<ISliderContainer> = ({
-                                                         displayPageTitle,
-                                                         navigationIndex,
-                                                         handle,
-                                                         setNavigationIndex,
-                                                         setDisplayPageTitle,
-                                                         mediaItem
-                                                     }) => {
+const SliderContainer: React.FC<any> = () => {
+
+    const {navigationIndex, setDisplayPageTitle, presentation, setNavigationIndex, setMedia} = usePresentation();
+
     const handleNavigation = (activeIndex: number) => {
         if (navigationIndex !== activeIndex) {
             setNavigationIndex(activeIndex);
@@ -24,20 +20,19 @@ const SliderContainer: React.FC<ISliderContainer> = ({
         <Carousel className="w-full"
                   navigation={({activeIndex, length, setActiveIndex}) => {
                       handleNavigation(activeIndex);
+                      setMedia(presentation?.mediaList?.[activeIndex] ?? null);
                       return (
                           <SliderNavigation
-                              displayPageTitle={displayPageTitle}
                               activeIndex={activeIndex}
-                              length={length}
                               setActiveIndex={setActiveIndex}
-                              handle={handle}
+                              totalSlides={length}
                           />
                       );
                   }}
                   onMouseEnter={() => setDisplayPageTitle(true)}
                   onMouseLeave={() => setDisplayPageTitle(false)}
         >
-            {mediaItem?.slice(1).map((media) => (
+            {presentation?.mediaList?.slice(1).map((media) => (
                 <Media key={media.id} {...media} />
             ))}
         </Carousel>
