@@ -6,13 +6,13 @@ import {usePresentation} from "../context/PresentationContext";
 
 
 const SliderNavigation: React.FC<ISliderNavigation> = ({activeIndex, setActiveIndex, totalSlides}) => {
-    const {handleFullScreen, displayPageTitle} = usePresentation();
+    const {fullScreen, isActiveSlider} = usePresentation();
 
     return (
         <motion.div
             animate={{
-                opacity: displayPageTitle ? 1 : 0,
-                y: displayPageTitle ? 0 : 100,
+                opacity: isActiveSlider ? 1 : 0,
+                y: isActiveSlider ? 0 : 100,
             }}
             transition={{delay: 0.2, ease: 'easeInOut', duration: 0.8}}
             className="absolute h-[3rem] bottom-0 z-10 w-full bg-[rgb(33,43,43,0.8)] text-white flex items-center px-[1rem]"
@@ -31,7 +31,7 @@ const SliderNavigation: React.FC<ISliderNavigation> = ({activeIndex, setActiveIn
                         setActiveIndex(movedToValue);
                     }}
                 />
-                {!handleFullScreen.active && <RiFullscreenFill color="white" width={10} className="cursor-pointer w-[70]" onClick={handleFullScreen.enter}/>}
+                {!fullScreen.active && <RiFullscreenFill color="white" width={10} className="cursor-pointer w-[70]" onClick={fullScreen.enter}/>}
             </div>
         </motion.div>
     );

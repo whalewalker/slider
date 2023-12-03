@@ -1,17 +1,16 @@
 import React from 'react';
 import {motion} from 'framer-motion';
 import {IoCloseOutline} from "react-icons/io5";
-import {Button} from "@material-tailwind/react";
 import {usePresentation} from "../context/PresentationContext";
 import DownloadIcon from "./DownloadIcon";
 
 const PresentationHeader: React.FC<any> = () => {
 
     const {
-        handleFullScreen,
-        displayPageTitle,
-        navigationIndex,
-        setDisplayPageTitle,
+        fullScreen,
+        isActiveSlider,
+        slideIndex,
+        setIsActiveSlider,
         presentation,
         setAccessibility,
         media,
@@ -32,15 +31,15 @@ const PresentationHeader: React.FC<any> = () => {
 
 
     function calculateOpacity() {
-        if (handleFullScreen.active) {
-            if (displayPageTitle) {
+        if (fullScreen.active) {
+            if (isActiveSlider) {
                 return 1;
             } else {
                 return 0;
             }
-        } else if (displayPageTitle && handleFullScreen.active) {
+        } else if (isActiveSlider && fullScreen.active) {
             return 1;
-        } else if (navigationIndex === 0) {
+        } else if (slideIndex === 0) {
             return 1;
         } else {
             return 0;
@@ -48,13 +47,13 @@ const PresentationHeader: React.FC<any> = () => {
     }
 
     function calculateY() {
-        if (handleFullScreen.active) {
-            if (displayPageTitle) {
+        if (fullScreen.active) {
+            if (isActiveSlider) {
                 return 0;
             } else {
                 return -100;
             }
-        } else if (displayPageTitle && navigationIndex === 0) {
+        } else if (isActiveSlider && slideIndex === 0) {
             return 0;
         } else {
             return -100;
@@ -62,7 +61,7 @@ const PresentationHeader: React.FC<any> = () => {
     }
 
     const closeFullScreenHandler = async () => {
-        await handleFullScreen.exit();
+        await fullScreen.exit();
         setAccessibility(false);
     };
 
@@ -75,26 +74,24 @@ const PresentationHeader: React.FC<any> = () => {
             animate={!accessibility && headerAnimation}
             transition={{delay: 0.2, ease: "easeInOut", duration: 0.8}}
             className={`${accessibility ? 'fixed' : 'absolute z-10'} top-0 w-full bg-[rgb(0,0,0,0.8)] text-white flex items-center justify-between px-[1rem] py-[0.5rem]`}
-            onMouseEnter={() => setDisplayPageTitle(true)}
-            onMouseLeave={() => setDisplayPageTitle(false)}
+            onMouseEnter={() => setIsActiveSlider(true)}
+            onMouseLeave={() => setIsActiveSlider(false)}
         >
             <p className="font-bold">
                 {presentation?.title} .{" "}
                 <span className="font-normal ml-[.2rem] text-sm">
-          {presentation?.mediaList?.length} pages
+          {presentation?.mediaList?.length && presentation?.mediaList?.length - 1} pages
         </span>
             </p>
 
-            {handleFullScreen.active && (
+            {fullScreen.active && (
                 <div className="flex items-center space-x-6 cursor-pointer">
-                    <Button
-                        variant="outlined"
-                        className="capitalize rounded-none"
-                        color="white"
+                    <button
+                        className="capitalize rounded-none border-white text-white"
                         onClick={toggleAccessibility}
                     >
                         Accessibility mode
-                    </Button>
+                    </button>
 
                     <DownloadIcon {...downloadContent}/>
 

@@ -54,12 +54,12 @@ export interface IPresentationContext {
     setMedia: React.Dispatch<React.SetStateAction<IMedia | null>>;
     progress: number;
     setProgress: React.Dispatch<React.SetStateAction<number>>;
-    displayPageTitle: boolean;
-    setDisplayPageTitle: React.Dispatch<React.SetStateAction<boolean>>;
-    navigationIndex: number;
-    setNavigationIndex: React.Dispatch<React.SetStateAction<number>>;
+    isActiveSlider: boolean;
+    setIsActiveSlider: React.Dispatch<React.SetStateAction<boolean>>;
+    slideIndex: number;
+    setSlideIndex: React.Dispatch<React.SetStateAction<number>>;
     accessibility: boolean;
     setAccessibility: React.Dispatch<React.SetStateAction<boolean>>;
-    handleFullScreen: ReturnType<typeof useFullScreenHandle>;
+    fullScreen: ReturnType<typeof useFullScreenHandle>;
 
 }

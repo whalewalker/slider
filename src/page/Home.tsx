@@ -4,48 +4,17 @@ import Header from '../component/Header';
 import {IPresentation, IPresentationRequest} from "../util/types";
 import {useMutation} from "react-query";
 import {createPresentation} from "../service/presentationService";
-import Presentation from "../component/Presentation";
 import FileDropZone from "../component/FileDropZone";
 import {usePresentation} from "../context/PresentationContext";
-import Slider from "react-slick";
+import styled from 'styled-components';
+import Presentation from "../component/Presentation";
+
 
 
 const Home: React.FC = () => {
     const [progress, setProgress] = useState<number>(0);
     const {presentation, setPresentation} = usePresentation();
 
-    function SampleNextArrow(props: any) {
-        const { className, style, onClick } = props;
-        return (
-            <div
-                className={className}
-                style={{ ...style, display: "block", background: "red" }}
-                onClick={onClick}
-            />
-        );
-    }
-
-    function SamplePrevArrow(props: any) {
-        const { className, style, onClick } = props;
-        return (
-            <div
-                className={className}
-                style={{ ...style, display: "block", background: "green" }}
-                onClick={onClick}
-            />
-        );
-    }
-
-    const settings = {
-        className: "center",
-        centerMode: true,
-        infinite: true,
-        centerPadding: "60px",
-        slidesToShow: 3,
-        speed: 500,
-        nextArrow: <SampleNextArrow />,
-        prevArrow: <SamplePrevArrow />
-    };
 
     const mutation = useMutation(
         async (values: any) => {
@@ -133,34 +102,14 @@ const Home: React.FC = () => {
                             progress={progress}
                         /></div>
                 )}
-                    {/*<Presentation/>*/}
+                    <Presentation/>
             </div>
 
-            <div className="border ">
-                <h2>Center Mode</h2>
-                <Slider {...settings}>
-                    <div>
-                        <h3>1</h3>
-                    </div>
-                    <div>
-                        <h3>2</h3>
-                    </div>
-                    <div>
-                        <h3>3</h3>
-                    </div>
-                    <div>
-                        <h3>4</h3>
-                    </div>
-                    <div>
-                        <h3>5</h3>
-                    </div>
-                    <div>
-                        <h3>6</h3>
-                    </div>
-                </Slider>
-            </div>
+
         </>
     )
 };
 
 export default Home;
+
+const Slide = styled.div``

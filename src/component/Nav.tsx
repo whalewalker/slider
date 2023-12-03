@@ -1,14 +1,13 @@
 import React, { ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
-import logo from '../asset/image/logo.png';
-
+// @ts-ignore
+import logo from "../asset/image/logo.png";
 const Nav: React.FC = () => {
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
-            // Handle file upload here
-            console.log('Selected file:', e.target.files[0]);
+            // console.log('Selected file:', e.target.files[0]);
         }
     };
 

@@ -9,8 +9,8 @@ export const PresentationProvider: React.FC<{ children: ReactNode }> = ({ childr
     const [presentation, setPresentation] = useState<IPresentation | null>(null);
     const [media, setMedia] = useState<IMedia | null>(null);
     const [progress, setProgress] = useState<number>(0);
-    const [displayPageTitle, setDisplayPageTitle] = useState<boolean>(false);
-    const [navigationIndex, setNavigationIndex] = useState<number>(0);
+    const [isActiveSlider, setIsActiveSlider] = useState<boolean>(false);
+    const [slideIndex, setSlideIndex] = useState<number>(0);
     const [accessibility, setAccessibility] = useState<boolean>(false);
     const handle = useFullScreenHandle();
 
@@ -21,17 +21,17 @@ export const PresentationProvider: React.FC<{ children: ReactNode }> = ({ childr
             setPresentation,
             progress,
             setProgress,
-            displayPageTitle,
-            setDisplayPageTitle,
-            navigationIndex,
-            setNavigationIndex,
+            isActiveSlider: isActiveSlider,
+            setIsActiveSlider: setIsActiveSlider,
+            slideIndex: slideIndex,
+            setSlideIndex: setSlideIndex,
             accessibility: accessibility,
             setAccessibility: setAccessibility,
-            handleFullScreen: handle,
+            fullScreen: handle,
             media: media,
             setMedia: setMedia
         }),
-        [presentation, setPresentation, progress, setProgress, displayPageTitle, setDisplayPageTitle, navigationIndex, setNavigationIndex, accessibility, setAccessibility, handle, setMedia, media]
+        [presentation, setPresentation, progress, setProgress, isActiveSlider, setIsActiveSlider, slideIndex, setSlideIndex, accessibility, setAccessibility, handle, setMedia, media]
     );
 
     return (
