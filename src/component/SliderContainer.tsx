@@ -30,15 +30,12 @@ const SliderContainer: React.FC = () => {
         centerMode: true,
         infinite: true,
         speed: 500,
-        dots: true,
+        dots: false,
         slidesToShow: 3,
         slidesToScroll: 1,
         initialSlide: 0,
         arrows: false,
         centerPadding: '0',
-        customPaging(index: number): any {
-            return <img src={presentation?.mediaList?.[index].path.replace(/&export=download/, '')} alt="thumb"/>;
-        },
         dotsClass: "slick-dots slick-thumb",
         beforeChange: (_: any, next: any) => setSlideIndex(next),
         responsive: [

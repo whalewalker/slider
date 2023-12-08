@@ -54,15 +54,19 @@ video {
     border: 2px solid black;
 }
 
+.slick-dots li img{
+    width: 200px;
+}
+
 @media (max-width: 990px) {
     /*.center .slick-center .project {*/
     /*    transform: scale(1);*/
     /*}*/
 
-    /*.center .project {*/
-    /*    opacity: 1;*/
-    /*    pointer-events: all;*/
-    /*}*/
+    .center .project {
+        opacity: 1;
+        pointer-events: all;
+    }
 }
 
 
