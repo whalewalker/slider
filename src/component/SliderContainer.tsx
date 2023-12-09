@@ -25,6 +25,7 @@ const SliderContainer: React.FC = () => {
         xl: fullScreen.active ? window.innerWidth : 0
     };
 
+
     let settings = {
         className: "center",
         centerMode: true,

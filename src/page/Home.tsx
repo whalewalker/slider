@@ -6,7 +6,6 @@ import {useMutation} from "react-query";
 import {createPresentation} from "../service/presentationService";
 import FileDropZone from "../component/FileDropZone";
 import {usePresentation} from "../context/PresentationContext";
-import styled from 'styled-components';
 import Presentation from "../component/Presentation";
 
 
@@ -60,7 +59,7 @@ const Home: React.FC = () => {
             const presentation: IPresentation = JSON.parse(presentationJson);
             setPresentation(presentation);
         }
-    }, []);
+    }, [setPresentation]);
 
 
 
@@ -112,4 +111,3 @@ const Home: React.FC = () => {
 
 export default Home;
 
-const Slide = styled.div``

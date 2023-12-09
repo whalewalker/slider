@@ -61,5 +61,9 @@ export interface IPresentationContext {
     accessibility: boolean;
     setAccessibility: React.Dispatch<React.SetStateAction<boolean>>;
     fullScreen: ReturnType<typeof useFullScreenHandle>;
+}
 
+export interface IDraggableColumn {
+    columnId: number,
+    media: IMedia[]
 }
