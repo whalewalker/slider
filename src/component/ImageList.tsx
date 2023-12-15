@@ -24,6 +24,7 @@ const ImageList: React.FC = () => {
                 };
             });
 
+
             // @ts-ignore
             setColumns(initialColumns);
         }
@@ -33,12 +34,13 @@ const ImageList: React.FC = () => {
         // Ensure result.destination is not null or undefined
         if (!result.destination) return;
 
+        // Clone the columns array
         const newColumns = [...columns];
 
-        // Ensure source and destination columns exist
+        // Find the source column
         const sourceColumn = newColumns.find((column) => column.columnId.toString() === result.source.droppableId);
 
-        // Ensure result.destination is not null or undefined before accessing result.destination.droppableId
+        // Find the destination column
         const destColumn = newColumns.find((column) => column.columnId.toString() === result.destination!.droppableId);
 
         if (sourceColumn && destColumn) {
@@ -47,10 +49,12 @@ const ImageList: React.FC = () => {
 
             // Ensure source index is within bounds
             if (result.source.index >= 0 && result.source.index < sourceMedia.length) {
+                // Remove the item from the source column
                 const [movedItem] = sourceMedia.splice(result.source.index, 1);
 
                 // Ensure destination index is within bounds
                 if (result.destination.index >= 0 && result.destination.index <= destMedia.length) {
+                    // Insert the item into the destination column
                     destMedia.splice(result.destination.index, 0, movedItem);
                 }
 
@@ -63,12 +67,20 @@ const ImageList: React.FC = () => {
                 // Update the position of each media item
                 const updatedMediaListWithPosition = updatedMediaList.map((media, index) => ({
                     ...media,
-                    position: index,
+                    position:  index + 1,
                 }));
 
-                // Update both state variables together
-                setColumns(newColumns);
-                setPresentation({ ...presentation, mediaList: updatedMediaListWithPosition });
+                // Update the 'newColumn' state with the updated media list and positions
+                const updatedColumns = newColumns.map((column) => ({
+                    ...column,
+                    media: column.media.map((mediaItem) => updatedMediaListWithPosition.find((item) => item.id === mediaItem.id)),
+                }));
+
+                // Set the state with the updated columns
+                // @ts-ignore
+                setColumns(updatedColumns);
+
+                console.log(updatedMediaListWithPosition);
             }
         }
     };
@@ -78,22 +90,22 @@ const ImageList: React.FC = () => {
 
 
 
+
     return (
         <DragDropContext onDragEnd={onDragEnd} >
-            <div>
+            <div className="flex">
                 {columns.map((column) => (
-                    <StrictModeDroppable key={column.columnId} droppableId={column.columnId.toString()} direction="horizontal">
+                    <StrictModeDroppable key={column.columnId} droppableId={column.columnId.toString()}>
                         {(provided) => (
                             <div
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
-                                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" // Adjust based on your design
+                                // className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-3" // Adjust based on your design
                             >
                                 {column.media.map((media, index) => (
                                     <Draggable key={media.id} draggableId={media.id.toString()} index={index}>
                                         {(provided) => (
                                             <div
-                                                className="flex-shrink-0"
                                                 {...provided.draggableProps}
                                                 {...provided.dragHandleProps}
                                                 ref={provided.innerRef}
@@ -102,7 +114,7 @@ const ImageList: React.FC = () => {
                                                     margin: "8px",
                                                 }}
                                             >
-                                                <div className="border border-gray-300 p-2 rounded-md">
+                                                <div className="p-2 rounded-md">
                                                     <img
                                                         src={media.path.replace(/&export=download/, "")}
                                                         alt={`${media.id}`}

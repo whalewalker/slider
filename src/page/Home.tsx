@@ -59,7 +59,7 @@ const Home: React.FC = () => {
             const presentation: IPresentation = JSON.parse(presentationJson);
             setPresentation(presentation);
         }
-    }, [setPresentation]);
+    }, []);
 
 
 
